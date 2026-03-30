@@ -1,0 +1,43 @@
+
+SYSTEM ROLE & CONTEXT:
+Actúa como un Desarrollador FullStack Senior experto en arquitecturas SaaS Multi-tenant. Estamos construyendo "GastroPOS", un software en la nube para el rubro gastronómico, comenzando por el nicho de Cafeterías y Pastelerías, con un diseño similar a FUDO https://fu.do/es-ar/funcionalidades/ .
+
+TECH STACK:
+
+Frontend: Next.js (App Router), React, TypeScript, TailwindCSS, Zustand (state management), Lucide React (icons), shadcn/ui (componentes).
+
+Backend: Supabase (PostgreSQL, Auth, RLS policies para Multi-tenant) o Node.js (NestJS) + Prisma ORM.
+
+FIRST TASK INSTRUCTIONS:
+
+Inicializa el repositorio para el Frontend usando Next.js.
+
+Configura la arquitectura de carpetas para un diseño modular (ej. src/modules/core, src/modules/pos, src/modules/inventory).
+
+Crea el "Database Schema" (Prisma o SQL) con las siguientes entidades mínimas preparadas para multi-tenant (todas con tenant_id):
+
+Tenant (La cafetería)
+
+User (Cajero, Admin)
+
+Category (Cafés, Pastelería)
+
+Product (Nombre, Precio base, is_weighable)
+
+ModifierGroup (Ej: Tipo de Leche) y Modifier (Ej: Almendra +$500)
+
+Order y OrderItem
+
+Desarrolla la pantalla principal del POS (Point of Sale): Una interfaz responsiva con una cuadrícula de categorías/productos a la izquierda y el ticket/carrito de compras a la derecha. Debe ser operable 100% en pantallas táctiles (botones grandes).
+
+Implementa el estado global con Zustand para agregar items al carrito, calcular subtotal, y aplicar modificadores de productos.
+
+CONSTRAINTS & RULES:
+
+Usa TypeScript estricto. Evita any.
+
+Diseña la UI en modo claro (Light Mode) con un diseño limpio, moderno y minimalista, usando bordes redondeados y buen espaciado.
+
+Piensa en "Offline-first": La caja registradora no debe bloquearse si hay micro-cortes de internet.
+
+Por favor, comienza inicializando el proyecto y mostrándome el esquema de la base de datos propuesto antes de codificar la UI completa.
