@@ -415,13 +415,16 @@ export async function syncFiscalInvoiceToRemote(
   const authContext = await resolveAuthContext();
   if (!authContext.ok) return { ok: false, error: authContext.error };
 
-  const documentNumber = invoice.documentNumber ?? `${invoice.provider.toUpperCase()}-${invoice.id.slice(0, 8).toUpperCase()}`;
+  // Facturación fiscal real pendiente de integración con ARCA
+  // Las facturas se registran como "pending" hasta que se implemente WSAA/WSFE
+  const documentNumber = invoice.documentNumber ?? null;
   const responsePayload =
     invoice.responsePayload ??
     JSON.stringify({
       provider: invoice.provider,
-      mocked: true,
-      issuedAt: new Date().toISOString(),
+      status: "pending_homologation",
+      note: "Facturación electrónica no implementada. Requiere integración con ARCA WSAA/WSFE.",
+      registeredAt: new Date().toISOString(),
     });
 
   const payload = {
@@ -430,7 +433,7 @@ export async function syncFiscalInvoiceToRemote(
     branch_id: invoice.branchId,
     order_id: invoice.saleId,
     provider: invoice.provider,
-    status: "issued",
+    status: "pending",
     document_number: documentNumber,
     response_payload: responsePayload,
     created_at: invoice.createdAt,
