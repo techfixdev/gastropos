@@ -591,7 +591,7 @@ export default function PosPage() {
             <div className="space-y-2">
               {paymentLines.map((line, index) => (
                 <div key={`${line.method}-${index}`} className="scene-card-soft grid gap-2 p-3">
-                  <div className="grid gap-2 sm:grid-cols-[1.2fr_0.8fr_auto]">
+                  <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto]">
                     <select
                       value={line.method}
                       onChange={(event) =>
@@ -603,7 +603,7 @@ export default function PosPage() {
                           )
                         )
                       }
-                      className="rounded-lg border px-3 py-2 text-sm"
+                      className="rounded-lg border px-3 py-2 text-sm min-w-0"
                     >
                       {PAYMENT_METHODS.map((method) => (
                         <option key={method} value={method}>
@@ -625,7 +625,7 @@ export default function PosPage() {
                           )
                         )
                       }
-                      className="rounded-lg border px-3 py-2 text-sm"
+                      className="rounded-lg border px-3 py-2 text-sm w-20 min-w-0"
                     />
                     <button
                       type="button"
@@ -727,11 +727,11 @@ export default function PosPage() {
               placeholder="Observacion del ticket"
               className="mt-2 w-full rounded-lg border px-3 py-2 text-sm"
             />
-            <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
+            <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto] min-w-0">
               <select
                 value={effectivePrinterId}
                 onChange={(event) => setSelectedPrinterId(event.target.value)}
-                className="rounded-lg border px-3 py-2 text-sm"
+                className="rounded-lg border px-3 py-2 text-sm min-w-0 truncate"
               >
                 <option value="">Sin impresora seleccionada</option>
                 {activeBranchPrinters.map((printer) => (
