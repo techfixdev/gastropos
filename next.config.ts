@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  trailingSlash: true,
+  // Server rendering for Railway — API routes (MercadoPago, ARCA) now work natively
+  output: "standalone",
 };
 
 export default nextConfig;
