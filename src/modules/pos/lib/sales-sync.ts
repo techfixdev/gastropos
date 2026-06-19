@@ -417,7 +417,7 @@ export async function syncFiscalInvoiceToRemote(
 
   // Facturación fiscal real pendiente de integración con ARCA
   // Las facturas se registran como "pending" hasta que se implemente WSAA/WSFE
-  const documentNumber = invoice.documentNumber ?? null;
+  const documentNumber = invoice.documentNumber ?? undefined;
   const responsePayload =
     invoice.responsePayload ??
     JSON.stringify({

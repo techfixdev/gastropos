@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[36911,["/_next/static/chunks/5012784a48999c2a.js","/_next/static/chunks/c4438026341b72f8.js"],"ViewportBoundary"]
+3:I[36911,["/_next/static/chunks/5012784a48999c2a.js","/_next/static/chunks/c4438026341b72f8.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+5:I[52452,["/_next/static/chunks/5012784a48999c2a.js","/_next/static/chunks/c4438026341b72f8.js"],"IconMark"]
+0:{"buildId":"FyqPu4CzcgoO1M1Lm43Tg","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"GastroPOS"}],["$","meta","1",{"name":"description","content":"Punto de venta para cafeterias y pastelerias"}],["$","link","2",{"rel":"icon","href":"/icon.svg?icon.35d3f33f.svg","sizes":"any","type":"image/svg+xml"}],["$","$L5","3",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
