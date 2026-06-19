@@ -616,6 +616,7 @@ export default function PosPage() {
                       min={0}
                       step={1}
                       value={line.amount}
+                      onFocus={(event) => event.target.select()}
                       onChange={(event) =>
                         setPaymentLines((current) =>
                           current.map((item, itemIndex) =>
