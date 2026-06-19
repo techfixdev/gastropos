@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Comic_Neue, DynaPuff } from "next/font/google";
 import "./globals.css";
-import { PosRuntime } from "@/modules/pos/ui/pos-runtime";
+import { AppShell } from "./app-shell";
 
 const displayFont = DynaPuff({
   subsets: ["latin"],
@@ -28,8 +28,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${displayFont.variable} ${bodyFont.variable} antialiased`}>
-        <PosRuntime />
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
