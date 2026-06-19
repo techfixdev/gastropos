@@ -397,7 +397,7 @@ export default function PosPage() {
 
   return (
     <main className="page-shell">
-      <div className="mx-auto grid w-full max-w-6xl gap-6 md:grid-cols-[2fr_1fr]">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[2fr_1fr]">
         <section className="scene-panel p-5">
           <BackLink />
           <header className="scene-toolbar mb-5">
@@ -406,14 +406,14 @@ export default function PosPage() {
               <div className="scene-heading-copy">
                 <p className="scene-kicker">Terminal</p>
                 <h1 className="text-2xl font-semibold">GastroPOS - Caja</h1>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                <span className="scene-status-pill">
-                  Sucursal {activeBranch?.code ?? "N/A"}
-                </span>
-                <span className={`scene-status-pill ${lowStockCount > 0 ? "warn" : ""}`}>
-                  {lowStockCount > 0 ? `${lowStockCount} alertas de stock` : "Stock controlado"}
-                </span>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <span className="scene-status-pill">
+                    Sucursal {activeBranch?.code ?? "N/A"}
+                  </span>
+                  <span className={`scene-status-pill ${lowStockCount > 0 ? "warn" : ""}`}>
+                    {lowStockCount > 0 ? `${lowStockCount} alertas de stock` : "Stock controlado"}
+                  </span>
+                </div>
               </div>
             </div>
             <div className="scene-actions">

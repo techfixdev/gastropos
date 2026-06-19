@@ -424,6 +424,14 @@ textarea {
 }
 
 @media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .page-shell {
+    padding: 0.75rem;
+  }
+
   body::before {
     width: 150px;
     height: 50px;
@@ -439,7 +447,7 @@ textarea {
 
   .scene-panel {
     border-radius: 28px;
-    padding: 1rem !important;
+    padding: 0.75rem !important;
   }
 
   .scene-card,
@@ -451,6 +459,17 @@ textarea {
   .scene-heading {
     width: 100%;
     align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .scene-toolbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .scene-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .scene-glyph {
