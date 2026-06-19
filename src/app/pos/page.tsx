@@ -615,7 +615,7 @@ export default function PosPage() {
                       type="number"
                       min={0}
                       step={1}
-                      value={line.amount}
+                      value={line.amount || ""}
                       onFocus={(event) => event.target.select()}
                       onChange={(event) =>
                         setPaymentLines((current) =>
@@ -626,6 +626,7 @@ export default function PosPage() {
                           )
                         )
                       }
+                      placeholder="0"
                       className="rounded-lg border px-3 py-2 text-sm w-20 min-w-0"
                     />
                     <button
