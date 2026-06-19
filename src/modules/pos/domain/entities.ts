@@ -1,0 +1,378 @@
+import type { Product } from "./catalog";
+
+export type PaymentMethod =
+  | "Efectivo"
+  | "Debito"
+  | "Credito"
+  | "Mercado Pago QR"
+  | "Mercado Pago Point"
+  | "Transferencia";
+export type PaymentStatus = "pending" | "approved" | "manual_confirmed" | "failed";
+export type EntitySyncStatus = "pending" | "syncing" | "synced" | "failed";
+export type PaperWidthMm = 80 | 90;
+export type PrinterConnectionType = "browser" | "usb" | "network";
+export type PaymentTerminalProvider = "manual" | "mercado_pago_qr" | "mercado_pago_point" | "bank_pos";
+export type PaymentCollectionMode = "manual" | "qr_dynamic" | "terminal";
+export type ReceiptPrintStatus = "pending" | "printed" | "failed";
+
+export type SelectedModifier = {
+  groupId: string;
+  groupName: string;
+  modifierId: string;
+  modifierName: string;
+  priceDelta: number;
+};
+
+export type CartItem = {
+  lineId: string;
+  productId: string;
+  productName: string;
+  basePrice: number;
+  qty: number;
+  isWeighable: boolean;
+  isBundle: boolean;
+  bundleItems: Array<{ productId: string; qty: number }>;
+  modifiers: SelectedModifier[];
+};
+
+export type SalePayment = {
+  id: string;
+  method: PaymentMethod;
+  amount: number;
+  status: PaymentStatus;
+  reference: string | null;
+  cardBrand: string | null;
+  installments: number | null;
+  last4: string | null;
+  providerLabel: string | null;
+  terminalId: string | null;
+  createdAt: string;
+};
+
+export type CheckoutPaymentInput = {
+  method: PaymentMethod;
+  amount: number;
+  status?: PaymentStatus;
+  reference?: string | null;
+  cardBrand?: string | null;
+  installments?: number | null;
+  last4?: string | null;
+  providerLabel?: string | null;
+  terminalId?: string | null;
+};
+
+export type TicketReceipt = {
+  id: string;
+  saleId: string;
+  branchId: string;
+  receiptNumber: string;
+  printerId: string | null;
+  paperWidthMm: PaperWidthMm;
+  copies: number;
+  printStatus: ReceiptPrintStatus;
+  printedAt: string | null;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+
+export type Sale = {
+  id: string;
+  createdAt: string;
+  branchId: string;
+  paymentMethod: PaymentMethod;
+  payments: SalePayment[];
+  customerName: string | null;
+  customerDocument: string | null;
+  note: string | null;
+  receiptId: string | null;
+  items: CartItem[];
+  subtotal: number;
+  tax: number;
+  total: number;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+
+export type SyncMeta = {
+  isOnline: boolean;
+  isSyncing: boolean;
+  lastSyncAt: string | null;
+  lastSyncError: string | null;
+  remoteEnabled: boolean;
+};
+
+export type ShiftClose = {
+  id: string;
+  branchId: string;
+  closedAt: string;
+  ticketCount: number;
+  totalAmount: number;
+  syncedCount: number;
+  pendingCount: number;
+  shiftOpenedAt: string;
+  openingAmount: number;
+  cashSalesTotal: number;
+  manualInTotal: number;
+  manualOutTotal: number;
+  expectedCash: number;
+  countedCash: number | null;
+  cashVariance: number | null;
+  note: string | null;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+
+export type ActiveShift = { id: string; openedAt: string; openingAmount: number };
+export type CashMovementType = "in" | "out";
+export type CashMovement = {
+  id: string;
+  shiftId: string;
+  createdAt: string;
+  type: CashMovementType;
+  amount: number;
+  reason: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type PreOrderStatus = "scheduled" | "ready" | "delivered" | "cancelled";
+export type PreOrder = {
+  id: string;
+  branchId: string;
+  customerName: string;
+  customerPhone: string | null;
+  note: string | null;
+  dueAt: string;
+  totalAmount: number;
+  depositAmount: number;
+  remainingAmount: number;
+  status: PreOrderStatus;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type KitchenStatus = "sent" | "preparing" | "ready" | "served" | "cancelled";
+export type DiningOrder = { id: string; tableCode: string; createdAt: string; status: KitchenStatus; notes: string | null; items: CartItem[] };
+export type DeliveryStatus = "pending" | "assigned" | "picked_up" | "delivered" | "cancelled";
+export type DeliverySource = "manual" | "pedidosya" | "rappi" | "ubereats" | "qr";
+export type Courier = { id: string; name: string; phone: string | null; active: boolean; createdAt: string };
+export type DeliveryOrder = {
+  id: string;
+  branchId: string;
+  source: DeliverySource;
+  customerName: string;
+  customerPhone: string | null;
+  address: string;
+  note: string | null;
+  totalAmount: number;
+  status: DeliveryStatus;
+  courierName: string | null;
+  courierPhone: string | null;
+  createdAt: string;
+  updatedAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type FiscalProvider = "none" | "arca" | "sii" | "sat";
+export type Branch = {
+  id: string;
+  name: string;
+  code: string;
+  fiscalProvider: FiscalProvider;
+  active: boolean;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type FiscalInvoiceStatus = "pending" | "processing" | "issued" | "failed";
+export type FiscalInvoice = {
+  id: string;
+  saleId: string;
+  branchId: string;
+  provider: Exclude<FiscalProvider, "none">;
+  status: FiscalInvoiceStatus;
+  documentNumber: string | null;
+  responsePayload: string | null;
+  createdAt: string;
+  updatedAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type TicketPrinterConfig = {
+  id: string;
+  branchId: string;
+  name: string;
+  paperWidthMm: PaperWidthMm;
+  connectionType: PrinterConnectionType;
+  copies: number;
+  autoPrint: boolean;
+  ipAddress: string | null;
+  isDefault: boolean;
+  active: boolean;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type PaymentTerminalConfig = {
+  id: string;
+  branchId: string;
+  name: string;
+  provider: PaymentTerminalProvider;
+  collectMode: PaymentCollectionMode;
+  externalReference: string | null;
+  active: boolean;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type ArcaConfig = {
+  id: string;
+  branchId: string;
+  mode: "disabled" | "test" | "production";
+  pointOfSale: number;
+  invoiceType: "B" | "A" | "T";
+  cuit: string;
+  legalName: string;
+  grossIncomeTaxStatus: string;
+  enabled: boolean;
+  lastTestAt: string | null;
+  lastInvoiceAt: string | null;
+  createdAt: string;
+  syncStatus: EntitySyncStatus;
+  syncAttempts: number;
+  lastSyncAttemptAt: string | null;
+  syncedAt: string | null;
+  syncError: string | null;
+};
+export type CheckoutPayload = {
+  payments: CheckoutPaymentInput[];
+  customerName?: string | null;
+  customerDocument?: string | null;
+  note?: string | null;
+  printerId?: string | null;
+};
+
+export type SyncEntity = { id: string; syncStatus: EntitySyncStatus; syncAttempts: number; lastSyncAttemptAt: string | null; syncedAt: string | null; syncError: string | null };
+export type SyncAction = "syncing" | "synced" | "failed" | "terminal";
+
+export type PosState = {
+  cart: CartItem[];
+  sales: Sale[];
+  shiftClosures: ShiftClose[];
+  cashMovements: CashMovement[];
+  preOrders: PreOrder[];
+  diningOrders: DiningOrder[];
+  couriers: Courier[];
+  deliveryOrders: DeliveryOrder[];
+  branches: Branch[];
+  activeBranchId: string | null;
+  fiscalInvoices: FiscalInvoice[];
+  ticketReceipts: TicketReceipt[];
+  printerConfigs: TicketPrinterConfig[];
+  paymentTerminals: PaymentTerminalConfig[];
+  arcaConfigs: ArcaConfig[];
+  activeShift: ActiveShift | null;
+  syncMeta: SyncMeta;
+  addLine: (product: Product, modifiers: SelectedModifier[], qty?: number) => void;
+  updateQty: (lineId: string, nextQty: number) => void;
+  clearCart: () => void;
+  completeSale: (payload: CheckoutPayload) => Sale | null;
+  clearSales: () => void;
+  openShift: (openingAmount: number) => ActiveShift;
+  closeShift: (countedCash?: number | null, note?: string | null) => ShiftClose | null;
+  addCashMovement: (type: CashMovementType, amount: number, reason: string) => CashMovement | null;
+  sendCartToKitchen: (tableCode: string, notes?: string | null) => DiningOrder | null;
+  setDiningOrderStatus: (orderId: string, status: KitchenStatus) => void;
+  moveDiningOrderToTable: (orderId: string, nextTableCode: string) => void;
+  mergeDiningOrders: (targetOrderId: string, sourceOrderId: string) => void;
+  addCourier: (name: string, phone?: string | null) => Courier | null;
+  toggleCourierActive: (courierId: string, active: boolean) => void;
+  createDeliveryOrder: (params: { source: DeliverySource; customerName: string; customerPhone?: string | null; address: string; note?: string | null; totalAmount: number }) => DeliveryOrder | null;
+  assignDeliveryCourier: (orderId: string, courierId: string | null) => void;
+  setDeliveryOrderStatus: (orderId: string, status: DeliveryStatus) => void;
+  addBranch: (name: string, code: string, fiscalProvider: FiscalProvider) => Branch | null;
+  setBranchActive: (branchId: string) => void;
+  setBranchEnabled: (branchId: string, active: boolean) => void;
+  upsertPrinterConfig: (config: Omit<TicketPrinterConfig, "createdAt" | "syncStatus" | "syncAttempts" | "lastSyncAttemptAt" | "syncedAt" | "syncError">) => TicketPrinterConfig;
+  upsertPaymentTerminal: (terminal: Omit<PaymentTerminalConfig, "createdAt" | "syncStatus" | "syncAttempts" | "lastSyncAttemptAt" | "syncedAt" | "syncError">) => PaymentTerminalConfig;
+  upsertArcaConfig: (config: Omit<ArcaConfig, "createdAt" | "syncStatus" | "syncAttempts" | "lastSyncAttemptAt" | "syncedAt" | "syncError">) => ArcaConfig;
+  markTicketPrinted: (receiptId: string) => void;
+  markTicketPrintFailed: (receiptId: string, errorMessage: string) => void;
+  createPreOrder: (params: { customerName: string; customerPhone?: string | null; note?: string | null; dueAt: string; totalAmount: number; depositAmount: number }) => PreOrder;
+  setPreOrderStatus: (preOrderId: string, status: PreOrderStatus) => void;
+  markSaleSyncing: (saleId: string) => void;
+  markSaleSynced: (saleId: string) => void;
+  markSaleFailed: (saleId: string, errorMessage: string) => void;
+  markSaleTerminal: (saleId: string, errorMessage: string) => void;
+  markShiftCloseSyncing: (closeId: string) => void;
+  markShiftCloseSynced: (closeId: string) => void;
+  markShiftCloseFailed: (closeId: string, errorMessage: string) => void;
+  markShiftCloseTerminal: (closeId: string, errorMessage: string) => void;
+  markCashMovementSyncing: (movementId: string) => void;
+  markCashMovementSynced: (movementId: string) => void;
+  markCashMovementFailed: (movementId: string, errorMessage: string) => void;
+  markCashMovementTerminal: (movementId: string, errorMessage: string) => void;
+  markPreOrderSyncing: (preOrderId: string) => void;
+  markPreOrderSynced: (preOrderId: string) => void;
+  markPreOrderFailed: (preOrderId: string, errorMessage: string) => void;
+  markPreOrderTerminal: (preOrderId: string, errorMessage: string) => void;
+  markDeliveryOrderSyncing: (orderId: string) => void;
+  markDeliveryOrderSynced: (orderId: string) => void;
+  markDeliveryOrderFailed: (orderId: string, errorMessage: string) => void;
+  markDeliveryOrderTerminal: (orderId: string, errorMessage: string) => void;
+  markBranchSyncing: (branchId: string) => void;
+  markBranchSynced: (branchId: string) => void;
+  markBranchFailed: (branchId: string, errorMessage: string) => void;
+  markBranchTerminal: (branchId: string, errorMessage: string) => void;
+  markFiscalInvoiceSyncing: (invoiceId: string) => void;
+  markFiscalInvoiceSynced: (invoiceId: string, documentNumber?: string | null, responsePayload?: string | null) => void;
+  markFiscalInvoiceFailed: (invoiceId: string, errorMessage: string) => void;
+  markFiscalInvoiceTerminal: (invoiceId: string, errorMessage: string) => void;
+  markTicketReceiptSyncing: (receiptId: string) => void;
+  markTicketReceiptSynced: (receiptId: string) => void;
+  markTicketReceiptFailed: (receiptId: string, errorMessage: string) => void;
+  markTicketReceiptTerminal: (receiptId: string, errorMessage: string) => void;
+  markPrinterConfigSyncing: (configId: string) => void;
+  markPrinterConfigSynced: (configId: string) => void;
+  markPrinterConfigFailed: (configId: string, errorMessage: string) => void;
+  markPrinterConfigTerminal: (configId: string, errorMessage: string) => void;
+  markPaymentTerminalSyncing: (terminalId: string) => void;
+  markPaymentTerminalSynced: (terminalId: string) => void;
+  markPaymentTerminalFailed: (terminalId: string, errorMessage: string) => void;
+  markPaymentTerminalTerminal: (terminalId: string, errorMessage: string) => void;
+  markArcaConfigSyncing: (configId: string) => void;
+  markArcaConfigSynced: (configId: string) => void;
+  markArcaConfigFailed: (configId: string, errorMessage: string) => void;
+  markArcaConfigTerminal: (configId: string, errorMessage: string) => void;
+  setSyncMeta: (meta: Partial<SyncMeta>) => void;
+};
