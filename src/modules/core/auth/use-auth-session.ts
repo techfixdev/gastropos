@@ -75,6 +75,60 @@ export function useAuthSession() {
       return;
     }
 
+    // Auto-create profile for first-time anonymous users
+    if (!profile) {
+      const defaultTenantId = "00000000-0000-0000-0000-000000000001"; // CENTRAL
+      const { error: insertError } = await supabase
+        .from("app_user")
+        .insert({
+          id: user.id,
+          tenant_id: defaultTenantId,
+          full_name: user.email ?? "Usuario Local",
+          role: "admin",
+        });
+
+      if (insertError) {
+        setState((current) => ({
+          ...current,
+          loading: false,
+          userId: user.id,
+          tenantId: null,
+          role: null,
+          error: `No se pudo crear el perfil: ${insertError.message}`,
+        }));
+        return;
+      }
+
+      // Re-read the newly created profile
+      const { data: newProfile, error: reReadError } = await supabase
+        .from("app_user")
+        .select("tenant_id, role")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (reReadError || !newProfile) {
+        setState((current) => ({
+          ...current,
+          loading: false,
+          userId: user.id,
+          tenantId: defaultTenantId,
+          role: "admin",
+          error: null,
+        }));
+        return;
+      }
+
+      setState({
+        loading: false,
+        configured: true,
+        userId: user.id,
+        tenantId: newProfile.tenant_id,
+        role: newProfile.role as "admin" | "cashier",
+        error: null,
+      });
+      return;
+    }
+
     setState({
       loading: false,
       configured: true,
