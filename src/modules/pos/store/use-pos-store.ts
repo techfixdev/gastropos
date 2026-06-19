@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { v4 as uuidv4 } from "uuid";
 import type { Product } from "../domain/catalog";
 
 export type PaymentMethod =
@@ -387,7 +388,7 @@ const DEFAULT_BRANCH_ID = "branch-main";
 const roundQty = (qty: number) => Math.round(qty * 1000) / 1000;
 const roundMoney = (value: number) => Math.max(0, Math.round(value));
 const nowIso = () => new Date().toISOString();
-const randomId = (suffix?: string) => globalThis.crypto?.randomUUID?.() ?? `${Date.now()}${suffix ? `-${suffix}` : ""}`;
+const randomId = (suffix?: string) => `${uuidv4()}${suffix ? `-${suffix}` : ""}`;
 const toFiscalProvider = (value: string | undefined | null): FiscalProvider => (value === "afip" ? "arca" : value === "arca" || value === "sii" || value === "sat" ? value : "none");
 const primaryPaymentMethod = (payments: SalePayment[]) => [...payments].sort((a, b) => b.amount - a.amount)[0]?.method ?? "Efectivo";
 const lineUnitPrice = (item: CartItem) => item.basePrice + item.modifiers.reduce((acc, modifier) => acc + modifier.priceDelta, 0);

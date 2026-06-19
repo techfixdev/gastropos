@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { BackLink } from "@/modules/core/ui/back-link";
 import { ModuleGlyph } from "@/modules/core/ui/module-glyph";
+import { sanitizeText, sanitizeDocumentNumber, sanitizeTableCode } from "@/modules/core/lib/sanitize";
 import {
   CATEGORIES,
   type ModifierGroup,
@@ -709,20 +710,20 @@ export default function PosPage() {
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               <input
                 value={customerName}
-                onChange={(event) => setCustomerName(event.target.value)}
+                onChange={(event) => setCustomerName(sanitizeText(event.target.value))}
                 placeholder="Cliente (opcional)"
                 className="rounded-lg border px-3 py-2 text-sm"
               />
               <input
                 value={customerDocument}
-                onChange={(event) => setCustomerDocument(event.target.value)}
+                onChange={(event) => setCustomerDocument(sanitizeDocumentNumber(event.target.value))}
                 placeholder="Documento / CUIT"
                 className="rounded-lg border px-3 py-2 text-sm"
               />
             </div>
             <input
               value={saleNote}
-              onChange={(event) => setSaleNote(event.target.value)}
+              onChange={(event) => setSaleNote(sanitizeText(event.target.value, 500))}
               placeholder="Observacion del ticket"
               className="mt-2 w-full rounded-lg border px-3 py-2 text-sm"
             />
@@ -768,13 +769,13 @@ export default function PosPage() {
             <div className="mt-2 grid gap-2">
               <input
                 value={tableCode}
-                onChange={(event) => setTableCode(event.target.value)}
+                onChange={(event) => setTableCode(sanitizeTableCode(event.target.value))}
                 placeholder="Mesa (ej: MESA-4)"
                 className="rounded-lg border px-3 py-2 text-sm"
               />
               <input
                 value={kitchenNote}
-                onChange={(event) => setKitchenNote(event.target.value)}
+                onChange={(event) => setKitchenNote(sanitizeText(event.target.value, 300))}
                 placeholder="Nota para cocina (opcional)"
                 className="rounded-lg border px-3 py-2 text-sm"
               />
